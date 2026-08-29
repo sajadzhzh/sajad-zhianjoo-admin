@@ -21,7 +21,7 @@ export default function Desktop() {
         </Link>
         <Link
           href={""}
-          className="px-4 py-2 rounded bg-red-600/25 hover:bg-red-600/40 text-red-700 flex gap-1 items-center text-[14px]"
+          className="px-4 py-2 rounded bg-red-600/15 hover:bg-red-600/40 text-red-700 flex gap-1 items-center text-[14px]"
         >
           <LogOut size={22} />
           خروج از حساب

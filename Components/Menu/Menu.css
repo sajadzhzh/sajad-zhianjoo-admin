@@ -26,3 +26,55 @@
     }
   }
 }
+
+
+.show {
+  animation: show 0.5s;
+}
+.hide {
+  animation: hide 0.5s;
+}
+.slideLeft {
+  animation: slideLeft 0.5s;
+}
+.slideRight {
+  animation: slideRight 0.5s;
+}
+
+@keyframes slideLeft {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@keyframes slideRight {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes show {
+  from {
+    display: none;
+    opacity: 0;
+  }
+  to {
+    display: block;
+    opacity: 1;
+  }
+}
+@keyframes hide {
+  from {
+    display: block;
+    opacity: 1;
+  }
+  to {
+    display: none;
+    opacity: 0;
+  }
+}

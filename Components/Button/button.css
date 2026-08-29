@@ -1,0 +1,33 @@
+.btn {
+  padding-block: calc(var(--spacing) * 2);
+  padding-inline: calc(var(--spacing) * 3);
+  border-radius: calc(var(--spacing) * 3);
+  display: flex;
+  gap: calc(var(--spacing) * 2);
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  width: 100%;
+}
+
+.btn:disabled{
+  opacity: 0.5;
+  cursor: default;
+}
+
+.btn_primary {
+  background: var(--primary);
+  font-size: 14px;
+  text-wrap: nowrap;
+
+  &:focus {
+    background: color-mix(in oklab, var(--primary) 50%, transparent);
+  }
+  &:not(:disabled):hover{
+    box-shadow: 0 2px 8px var(--primary);
+  }
+}
+
+.btn_normal {
+  color: var(--text);
+}

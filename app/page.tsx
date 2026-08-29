@@ -1,3 +1,16 @@
+import Cards from "@/Components/Dashboard/Cards/Index";
+import DashBoardMessages from "@/Components/Dashboard/Messages/Index";
+
 export default function Home() {
-  return <div className="w-full">Admin panel</div>;
+  return (
+    <div className="w-full h-[90svh] Container space-y-5">
+      <h2 className="font-bold text-[16px]">صفحه اصلی</h2>
+      
+      <Cards />
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
+        <DashBoardMessages />
+      </div>
+    </div>
+  );
 }

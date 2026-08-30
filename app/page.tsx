@@ -5,7 +5,7 @@ import RecentProjects from "@/Components/Dashboard/Recent_Projects/Index";
 
 export default function Home() {
   return (
-    <div className="w-full h-[90svh] Container space-y-5">
+    <div className="w-full h-[90svh] overflow-scroll Container space-y-5">
       <h2 className="font-bold text-[16px]">صفحه اصلی</h2>
       
       <Cards />

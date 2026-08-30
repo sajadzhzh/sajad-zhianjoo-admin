@@ -1,3 +1,5 @@
+"use client"
+
 import {
   Award,
   Box,
@@ -8,15 +10,17 @@ import {
   Settings2,
 } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function MenuItems() {
+  const path = usePathname()
   return (
     <>
-      <Link href={""} className="menu-item active">
+      <Link href={"/"} className={path === "/" ? "menu-item active" : "menu-item"}>
         <Home />
         صفحه اصلی
       </Link>
-      <Link href={""} className="menu-item">
+      <Link href={"/projects"} className={path.includes("/projects") ? "menu-item active" : "menu-item"}>
         <Box />
         پروژه‌ها
       </Link>

@@ -31,7 +31,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <Menu />
         </div>
 
-        <div className="w-full lg:w-4/5">
+        <div className="w-full min-w-[20rem] lg:w-4/5">
           <Header />
           {children}
         </div>

@@ -33,7 +33,7 @@ export default function VisitorsChart() {
         </p>
       </div>
 
-      <div className="h-[30svh] w-full">
+      <div className="h-[20svh] lg:h-[30svh] w-full">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart
             data={data}
@@ -76,9 +76,10 @@ export default function VisitorsChart() {
               dataKey="day"
               axisLine={false}
               tickLine={false}
+              interval={0}
               tick={{
                 fill: "var(--muted)",
-                fontSize: 12,
+                fontSize: 8,
               }}
             />
 

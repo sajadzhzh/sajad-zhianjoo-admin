@@ -1,6 +1,7 @@
 import Cards from "@/Components/Dashboard/Cards/Index";
 import VisitorsChart from "@/Components/Dashboard/Chart/VisitorsChart";
 import DashBoardMessages from "@/Components/Dashboard/Messages/Index";
+import RecentProjects from "@/Components/Dashboard/Recent_Projects/Index";
 
 export default function Home() {
   return (
@@ -14,6 +15,8 @@ export default function Home() {
 
         <VisitorsChart />
       </div>
+
+      <RecentProjects />
     </div>
   );
 }

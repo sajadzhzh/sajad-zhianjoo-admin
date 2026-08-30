@@ -4,7 +4,7 @@ import "./Messages.css";
 export default function DashBoardMessages() {
   return (
     <div className="Container messages-container">
-        <h2 className="text-[14px] py-1">آخرین پيام‌ها</h2>
+        <h2 className="text-[14px] font-bold py-1">آخرین پيام‌ها</h2>
         <div className="flex flex-col gap-1 min-h-[30svh]">
             <DMItem />
             <DMItem />

@@ -1,4 +1,5 @@
 import Cards from "@/Components/Dashboard/Cards/Index";
+import VisitorsChart from "@/Components/Dashboard/Chart/VisitorsChart";
 import DashBoardMessages from "@/Components/Dashboard/Messages/Index";
 
 export default function Home() {
@@ -10,6 +11,8 @@ export default function Home() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
         <DashBoardMessages />
+
+        <VisitorsChart />
       </div>
     </div>
   );

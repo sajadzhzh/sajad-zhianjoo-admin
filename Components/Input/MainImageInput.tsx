@@ -1,53 +1,74 @@
 "use client";
 
 import { ImagePlus, X } from "lucide-react";
-import { useEffect, useState } from "react";
+
+type MainImage = {
+  file: File | null;
+  preview: string | null;
+};
+
+type Props = {
+  image: MainImage;
+  setImage: React.Dispatch<React.SetStateAction<MainImage>>;
+};
 
 export default function MainImageInput({
-  file,
-  setFile,
-}: {
-  file: File | null;
-  setFile: (file: any) => void;
-}) {
-  const [preview, setPreview] = useState<string | null>(null);
+  image,
+  setImage,
+}: Props) {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = e.target.files?.[0];
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = e.target.files?.[0];
+    if (!file) return;
 
-    if (!selectedFile) return;
+    // اگر قبلاً یک preview از نوع blob داشتیم،
+    // قبل از جایگزینی آزادش می‌کنیم
+    if (image.preview?.startsWith("blob:")) {
+      URL.revokeObjectURL(image.preview);
+    }
 
-    setFile(selectedFile);
-    setPreview(URL.createObjectURL(selectedFile));
+    setImage({
+      file,
+      preview: URL.createObjectURL(file),
+    });
   };
 
   const removeImage = () => {
-    setFile(null);
-    setPreview(null);
-  };
+    if (image.preview?.startsWith("blob:")) {
+      URL.revokeObjectURL(image.preview);
+    }
 
-  useEffect(() => {
-    return () => {
-      if (preview) {
-        URL.revokeObjectURL(preview);
-      }
-    };
-  }, [preview]);
+    setImage({
+      file: null,
+      preview: null,
+    });
+  };
 
   return (
     <div className="w-full md:col-span-2">
-      <label className="mb-2 block text-[14px] text-(--muted)">تصویر اصلی پروژه</label>
+      <label className="mb-2 block text-[14px] text-(--muted)">
+        تصویر اصلی پروژه
+      </label>
 
-      {!preview ? (
+      {!image.preview ? (
         <label
           htmlFor="main-image"
           className="flex h-56 w-full cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-(--border) bg-(--surface) transition hover:border-(--primary)"
         >
-          <ImagePlus size={32} className="mb-3 text-(--primary)" />
+          <ImagePlus
+            size={32}
+            className="mb-3 text-(--primary)"
+          />
 
-          <span className="text-sm">انتخاب تصویر اصلی</span>
+          <span className="text-sm">
+            انتخاب تصویر اصلی
+          </span>
 
-          <span className="mt-1 text-xs text-(--muted)">PNG, JPG, WEBP</span>
+          <span className="mt-1 text-xs text-(--muted)">
+            PNG, JPG, WEBP
+          </span>
 
           <input
             id="main-image"
@@ -60,7 +81,7 @@ export default function MainImageInput({
       ) : (
         <div className="relative h-56 overflow-hidden rounded-xl border border-(--border)">
           <img
-            src={preview}
+            src={image.preview}
             alt="تصویر اصلی پروژه"
             className="h-full w-full object-cover"
           />
@@ -75,8 +96,10 @@ export default function MainImageInput({
         </div>
       )}
 
-      {file && (
-        <p className="mt-2 truncate text-xs text-(--muted)">{file.name}</p>
+      {image.file && (
+        <p className="mt-2 truncate text-xs text-(--muted)">
+          {image.file.name}
+        </p>
       )}
     </div>
   );

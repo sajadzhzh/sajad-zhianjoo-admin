@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MultiSelect from "../Input/MultiSelect";
 import TextInput from "../Input/Text";
 import Button from "../Button/Button";
@@ -18,28 +18,39 @@ export type GalleryImage = {
   preview: string | null;
 };
 
-export default function ProjectForm({ edit }: { edit?: boolean }) {
+export default function ProjectForm({
+  edit,
+  id,
+}: {
+  edit?: boolean;
+  id?: string;
+}) {
   const [selected, setSelected] = useState<string[]>([]);
   const [thumbnail, setThumbnail] = useState<MainImage>({
     file: null,
-    preview: edit ? post.src : null, 
+    preview: edit ? post.src : null,
   });
   const [images, setImages] = useState<GalleryImage[]>([
     {
       file: null,
-      preview: edit ? post.src : null, 
+      preview: edit ? post.src : null,
     },
   ]);
 
-  // edit && setSelected(["Next.js", "Tailwind CSS"])
-
+  useEffect(() => {
+    edit && setSelected(["Next.js", "Tailwind CSS"]);
+  }, []);
   return (
     <form className="space-y-2 w-full grid grid-cols-1 md:grid-cols-2 gap-2">
       <div className="w-full flex flex-col gap-2">
         <label htmlFor="projectName" className="text-[14px] text-(--muted)">
           نام پروژه
         </label>
-        <TextInput name="projectName" id="projectName" defaultValue={edit ? "PName" : ""}/>
+        <TextInput
+          name="projectName"
+          id="projectName"
+          defaultValue={edit ? "PName" : ""}
+        />
       </div>
 
       <div className="w-full flex flex-col gap-2">
@@ -53,21 +64,33 @@ export default function ProjectForm({ edit }: { edit?: boolean }) {
         <label htmlFor="shortExplain" className="text-[14px] text-(--muted)">
           توضیح مختصر
         </label>
-        <TextInput name="shortExplain" id="shortExplain" defaultValue={edit ? "Short explain" : ""} />
+        <TextInput
+          name="shortExplain"
+          id="shortExplain"
+          defaultValue={edit ? "Short explain" : ""}
+        />
       </div>
 
       <div className="w-full flex flex-col gap-2 ">
         <label htmlFor="sourceLink" className="text-[14px] text-(--muted)">
           لينک کد منبع
         </label>
-        <TextInput name="sourceLink" id="sourceLink" defaultValue={edit ? "GitHub" : ""} />
+        <TextInput
+          name="sourceLink"
+          id="sourceLink"
+          defaultValue={edit ? "GitHub" : ""}
+        />
       </div>
 
       <div className="w-full flex flex-col gap-2 md:col-span-2">
         <label htmlFor="sourceLink" className="text-[14px] text-(--muted)">
           آدرس سایت (در صورت آنلاین بودن)
         </label>
-        <TextInput name="sourceLink" id="sourceLink" defaultValue={edit ? "www.abc.ir" : ""} />
+        <TextInput
+          name="sourceLink"
+          id="sourceLink"
+          defaultValue={edit ? "www.abc.ir" : ""}
+        />
       </div>
 
       <MultiSelect selected={selected} setSelected={setSelected} />
@@ -90,7 +113,7 @@ export default function ProjectForm({ edit }: { edit?: boolean }) {
       <GalleryImageInput images={images} setImages={setImages} />
 
       <Button theme="primary" type="submit" className="md:col-span-2">
-        ايجاد
+        {edit ? "اعمال تغییرات" : "ايجاد"}
       </Button>
     </form>
   );

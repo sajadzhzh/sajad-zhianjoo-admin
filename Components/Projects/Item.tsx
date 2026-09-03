@@ -5,7 +5,7 @@ import Link from "next/link";
 export default function ProjectItem() {
   return (
     <Link
-      href={""}
+      href={"/projects/1"}
       className="w-full relative border border-(--border) rounded-xl"
     >
       <Image

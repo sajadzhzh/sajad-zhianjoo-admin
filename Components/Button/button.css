@@ -30,4 +30,5 @@
 
 .btn_normal {
   color: var(--text);
+  font-size: 14px;
 }

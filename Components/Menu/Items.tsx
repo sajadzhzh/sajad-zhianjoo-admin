@@ -24,7 +24,7 @@ export default function MenuItems() {
         <Box />
         پروژه‌ها
       </Link>
-      <Link href={""} className="menu-item">
+      <Link href={"/abilities"} className={path.includes("/abilities") ? "menu-item active" : "menu-item"}>
         <Award />
         مهارت‌ها
       </Link>

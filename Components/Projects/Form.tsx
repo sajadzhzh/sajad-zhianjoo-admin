@@ -112,9 +112,24 @@ export default function ProjectForm({
 
       <GalleryImageInput images={images} setImages={setImages} />
 
-      <Button theme="primary" type="submit" className="md:col-span-2">
-        {edit ? "اعمال تغییرات" : "ايجاد"}
-      </Button>
+      <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-2 md:col-span-2">
+        <Button
+          theme="primary"
+          type="submit"
+          className={edit ? "" : "md:col-span-2"}
+        >
+          {edit ? "اعمال تغییرات" : "ايجاد"}
+        </Button>
+
+        {edit && (
+          <Button
+            theme="normal"
+            className="border border-red-600 bg-red-500/50 hover:bg-red-500/75"
+          >
+            حذف پروژه
+          </Button>
+        )}
+      </div>
     </form>
   );
 }

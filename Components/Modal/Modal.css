@@ -1,0 +1,42 @@
+.modal {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: calc(var(--spacing) * 5);
+  padding-block: calc(var(--spacing) * 7);
+  padding-inline: calc(var(--spacing) * 8);
+  margin-inline: calc(var(--spacing) * 5);
+
+
+  @media (width >= 1024) {
+    width: 50%;
+  }
+}
+
+.showModal {
+  animation: showModal 0.5s;
+}
+.hideModal {
+  animation: hideModal 0.5s;
+}
+
+@keyframes showModal {
+  from {
+    display: none;
+    opacity: 0;
+  }
+  to {
+    display: flex;
+    opacity: 1;
+  }
+}
+@keyframes hideModal {
+  from {
+    display: flex;
+    opacity: 1;
+  }
+  to {
+    display: none;
+    opacity: 0;
+  }
+}

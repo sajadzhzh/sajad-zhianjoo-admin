@@ -32,7 +32,7 @@ export default function MenuItems() {
         <FileUser />
         رزومه
       </Link>
-      <Link href={""} className="menu-item">
+      <Link href={"/messages"} className={path.includes("/messages") ? "menu-item active" : "menu-item"}>
         <Mail />
         پیام‌ها
       </Link>

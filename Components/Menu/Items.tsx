@@ -36,7 +36,7 @@ export default function MenuItems() {
         <Mail />
         پیام‌ها
       </Link>
-      <Link href={""} className="menu-item">
+      <Link href={"/site-settings"} className={path.includes("/site-settings") ? "menu-item active" : "menu-item"}>
         <Settings2 />
         تنظیمات سایت
       </Link>

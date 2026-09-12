@@ -1,0 +1,30 @@
+import TextInput from "@/Components/Input/Text";
+
+export default function SiteSettingsPage() {
+  return (
+    <div className="w-full h-[90svh] overflow-scroll Container space-y-5">
+      <h2 className="font-bold text-[16px]">تنظیمات سایت</h2>
+
+      <div className="w-full">
+        <form className="w-full grid grid-cols-1 md:grid-cols-2 gap-2">
+          <div className="flex flex-col gap-2">
+            <label htmlFor="instagram" className="text-[14px]">آدرس اینستاگرام</label>
+            <TextInput name="instagram" id="instagram" />
+          </div>
+          <div className="flex flex-col gap-2">
+            <label htmlFor="telegram" className="text-[14px]">آدرس تلگرام</label>
+            <TextInput name="telegram" id="telegram" />
+          </div>
+          <div className="flex flex-col gap-2">
+            <label htmlFor="github" className="text-[14px]">آدرس گیت هاب</label>
+            <TextInput name="github" id="github" />
+          </div>
+          <div className="flex flex-col gap-2">
+            <label htmlFor="linkedin" className="text-[14px]">آدرس لینکدین</label>
+            <TextInput name="linkedin" id="linkedin" />
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}

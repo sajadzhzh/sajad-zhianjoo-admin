@@ -28,7 +28,7 @@ export default function MenuItems() {
         <Award />
         مهارت‌ها
       </Link>
-      <Link href={""} className="menu-item">
+      <Link href={"/resume"} className={path.includes("/resume") ? "menu-item active" : "menu-item"}>
         <FileUser />
         رزومه
       </Link>

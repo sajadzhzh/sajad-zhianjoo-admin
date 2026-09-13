@@ -4,16 +4,18 @@ export default function TextInput({
   placeholder,
   className,
   defaultValue,
+  type,
 }: {
   name: string;
   id: string;
   placeholder?: string;
   className?: string;
   defaultValue?: string;
+  type?: "text" | "password";
 }) {
   return (
     <input
-      type="text"
+      type={type ? type : "text"}
       name={name}
       id={id}
       placeholder={placeholder}

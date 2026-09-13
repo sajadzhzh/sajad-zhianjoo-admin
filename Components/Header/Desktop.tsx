@@ -8,13 +8,13 @@ export default function Desktop() {
       <h2 className="font-bold text-[18px] ">پنل مدیریت</h2>
       <div className="flex items-center gap-4">
         <Link
-          href={""}
+          href={"/settings"}
           className="px-4 py-2 rounded hover:bg-(--surface) text-[14px]"
         >
           <Settings size={22} />
         </Link>
         <Link
-          href={""}
+          href={"/messages"}
           className="px-4 py-2 rounded hover:bg-(--surface) text-[14px]"
         >
           <Mail size={22} />

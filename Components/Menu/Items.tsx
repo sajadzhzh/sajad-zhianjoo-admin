@@ -40,7 +40,7 @@ export default function MenuItems() {
         <Settings2 />
         تنظیمات سایت
       </Link>
-      <Link href={""} className="menu-item">
+      <Link href={"/settings"} className={path.includes("/settings") ? "menu-item active" : "menu-item"}>
         <Settings />
         تنظیمات
       </Link>

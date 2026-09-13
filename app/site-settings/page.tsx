@@ -1,4 +1,7 @@
-import TextInput from "@/Components/Input/Text";
+import AboutMeForm from "@/Components/site-settings/AboutMeForm";
+import AddressForm from "@/Components/site-settings/AddressForm";
+import LinksForm from "@/Components/site-settings/LinksForm";
+import Readyform from "@/Components/site-settings/ReadyForm";
 
 export default function SiteSettingsPage() {
   return (
@@ -6,24 +9,19 @@ export default function SiteSettingsPage() {
       <h2 className="font-bold text-[16px]">تنظیمات سایت</h2>
 
       <div className="w-full">
-        <form className="w-full grid grid-cols-1 md:grid-cols-2 gap-2">
-          <div className="flex flex-col gap-2">
-            <label htmlFor="instagram" className="text-[14px]">آدرس اینستاگرام</label>
-            <TextInput name="instagram" id="instagram" />
-          </div>
-          <div className="flex flex-col gap-2">
-            <label htmlFor="telegram" className="text-[14px]">آدرس تلگرام</label>
-            <TextInput name="telegram" id="telegram" />
-          </div>
-          <div className="flex flex-col gap-2">
-            <label htmlFor="github" className="text-[14px]">آدرس گیت هاب</label>
-            <TextInput name="github" id="github" />
-          </div>
-          <div className="flex flex-col gap-2">
-            <label htmlFor="linkedin" className="text-[14px]">آدرس لینکدین</label>
-            <TextInput name="linkedin" id="linkedin" />
-          </div>
-        </form>
+        <LinksForm />
+      </div>
+
+      <div className="w-full border-y border-(--border) py-4">
+        <AddressForm />
+      </div>
+
+      <div className="w-full border-b border-(--border) py-4">
+        <AboutMeForm />
+      </div>
+
+      <div className="w-full">
+        <Readyform />
       </div>
     </div>
   );

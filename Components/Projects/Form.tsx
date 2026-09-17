@@ -83,12 +83,12 @@ export default function ProjectForm({
       </div>
 
       <div className="w-full flex flex-col gap-2 md:col-span-2">
-        <label htmlFor="sourceLink" className="text-[14px] text-(--muted)">
+        <label htmlFor="address" className="text-[14px] text-(--muted)">
           آدرس سایت (در صورت آنلاین بودن)
         </label>
         <TextInput
-          name="sourceLink"
-          id="sourceLink"
+          name="address"
+          id="address"
           defaultValue={edit ? "www.abc.ir" : ""}
         />
       </div>

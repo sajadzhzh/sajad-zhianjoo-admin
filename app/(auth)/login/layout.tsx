@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Vazirmatn } from "next/font/google";
 import "./login.css";
+import { Toaster } from "react-hot-toast";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,7 +25,13 @@ export default function LoginLayout({ children }: LayoutProps<"/">) {
       dir="rtl"
       className={`${geistSans.variable} ${vazirmatn.variable}`}
     >
-      <body className="min-h-svh">{children}</body>
+      <body className="min-h-svh">
+        <Toaster
+          position="top-right"
+          toastOptions={{ style: { background: "#18181b", color: "#fafafa", border: "1px solid #27272a" } }}
+        />
+        {children}
+      </body>
     </html>
   );
 }

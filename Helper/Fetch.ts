@@ -54,7 +54,7 @@ const putFetch = async (
   body: object,
   headers: HeadersInit = {},
 ) => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/${url}`, {
+  const res = await fetch(`${process.env.API_SERVER_URL}/${url}`, {
     cache: "no-store",
     method: "PUT",
     headers: {

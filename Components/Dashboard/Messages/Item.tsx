@@ -1,13 +1,20 @@
-import Link from "next/link";
+import { toJalaliDate } from "@/Helper/Date";
 
-export default function DMItem() {
+type MessageType ={
+  name: string;
+  title: string;
+  time: string;
+}
+
+export default function DMItem({name, title, time}: MessageType) {
+  
   return (
-    <Link href={""} className="w-full flex justify-between gap-2 items-center px-2 py-1 rounded border border-(--border) hover:bg-(--surface-hover)">
+    <div className="w-full flex justify-between gap-2 items-center px-2 py-1 rounded border border-(--border) hover:bg-(--surface-hover)">
       <div>
-        <p className="text-[14px]">نام و نام خانوادگی فرستنده</p>
-        <p className="text-[12px] text-(--muted)">موضوع پیام</p>
+        <p className="text-[14px]">{name}</p>
+        <p className="text-[12px] text-(--muted)">{title}</p>
       </div>
-      <p className="text-[12px] text-(--muted)">زمان ارسال</p>
-    </Link>
+      <p className="text-[12px] text-(--muted)">{toJalaliDate(time)}</p>
+    </div>
   );
 }

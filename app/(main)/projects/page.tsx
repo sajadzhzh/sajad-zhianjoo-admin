@@ -1,7 +1,29 @@
+"use client";
+
+import { GetAllProjects } from "@/Actions/Projects";
+import Empty from "@/Components/Empty";
 import ProjectItem from "@/Components/Projects/Item";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import Loading from "../Loading";
 
 export default function ProjectsPage() {
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const request = async () => {
+      const res = await GetAllProjects();
+
+      if (res.success) {
+        setProjects(res.data);
+        setLoading(false);
+      }
+
+      setLoading(false);
+    };
+    request();
+  }, []);
   return (
     <div className="w-full h-[90svh] overflow-scroll Container space-y-5">
       <div className="w-full flex items-center justify-between">
@@ -15,14 +37,12 @@ export default function ProjectsPage() {
       </div>
 
       <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
-        <ProjectItem />
-        <ProjectItem />
-        <ProjectItem />
-        <ProjectItem />
-        <ProjectItem />
-        <ProjectItem />
-        <ProjectItem />
-        <ProjectItem />
+        {projects &&
+          projects.map((i, index) => <ProjectItem key={index} data={i} />)}
+
+        {projects.length < 1 && !loading && Empty("پروژه ایی ثبت نشده است")}
+
+        {loading && <Loading />}
       </div>
     </div>
   );

@@ -27,3 +27,28 @@ export async function GetAllProjects() {
     });
   }
 }
+
+export async function GetLatestProjects(limit: number) {
+  try {
+    const res = await getFetch(`projects?limit=${limit}`);
+
+    if (res.success) {
+      return Response({
+        success: res.success,
+        data: res.data,
+      });
+    } else {
+      return Response({
+        success: res.success,
+        message: res.message,
+      });
+    }
+  } catch (e: any) {
+    console.log(e.message);
+
+    return Response({
+      success: false,
+      message: "مشکلی پیش آمد. لطفا مجدد تلاش کنید.",
+    });
+  }
+}

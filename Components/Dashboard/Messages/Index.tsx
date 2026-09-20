@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import DMItem from "./Item";
 import "./Messages.css";
 import { GetLatestMessages } from "@/Actions/Messages";
+import Empty from "@/Components/Empty";
+import Loading from "@/app/(main)/Loading";
 
 type Message = {
   id: number;
@@ -16,6 +18,7 @@ type Message = {
 
 export default function DashBoardMessages() {
   const [messages, setMessages] = useState<Message[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const request = async () => {
@@ -23,7 +26,10 @@ export default function DashBoardMessages() {
 
       if (res.success) {
         setMessages(res.data);
+        setLoading(false);
       }
+
+      setLoading(false);
     };
     request();
   }, []);
@@ -34,8 +40,17 @@ export default function DashBoardMessages() {
       <div className="flex flex-col gap-1 lg:h-[30svh]">
         {messages &&
           messages.map((i) => (
-            <DMItem name={i?.name} title={i?.title} time={i?.created_at} />
+            <DMItem
+              key={i.id}
+              name={i?.name}
+              title={i?.title}
+              time={i?.created_at}
+            />
           ))}
+
+        {messages.length < 1 && !loading && Empty("پیامی برای شما ارسال نشده است")}
+
+        {loading && (<Loading />)}
       </div>
     </div>
   );

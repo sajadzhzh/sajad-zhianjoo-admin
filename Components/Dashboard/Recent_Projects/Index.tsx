@@ -1,7 +1,29 @@
+"use client";
+
+import { GetLatestProjects } from "@/Actions/Projects";
+import Loading from "@/app/(main)/Loading";
+import Empty from "@/Components/Empty";
 import ProjectItem from "@/Components/Projects/Item";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 export default function RecentProjects() {
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const request = async () => {
+      const res = await GetLatestProjects(4);
+
+      if (res.success) {
+        setProjects(res.data);
+        setLoading(false);
+      }
+
+      setLoading(false);
+    };
+    request();
+  }, []);
   return (
     <div className="w-full Container bg-(--surface) border border-(--border) rounded-xl">
       <div className="w-full flex gap-2 items-center justify-between mb-4">
@@ -15,10 +37,12 @@ export default function RecentProjects() {
       </div>
 
       <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
-        <ProjectItem />
-        <ProjectItem />
-        <ProjectItem />
-        <ProjectItem />
+        {projects &&
+          projects.map((i, index) => <ProjectItem key={index} data={i} />)}
+
+        {projects.length < 1 && !loading && Empty("پروژه ایی ثبت نشده است")}
+
+        {loading && (<Loading />)}
       </div>
     </div>
   );

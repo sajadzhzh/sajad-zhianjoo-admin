@@ -9,16 +9,18 @@ type ProjectType = {
 }
 
 export default function ProjectItem({data}:{data: ProjectType}) {
+  
   return (
     <Link
       href={`/projects/${data.id}`}
       className="w-full relative border border-(--border) rounded-xl"
     >
       <Image
-        src={data.thumbnail}
+        src={`http://localhost:3000${data.thumbnail}`}
         width={500}
         height={500}
         alt="post_image"
+        unoptimized
         className="rounded-xl w-full"
       />
 

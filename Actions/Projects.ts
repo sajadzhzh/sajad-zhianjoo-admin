@@ -1,7 +1,8 @@
 "use server";
 
-import { getFetch } from "@/Helper/Fetch";
+import { getFetch, postFetch } from "@/Helper/Fetch";
 import Response from "@/Helper/Response";
+import { cookies } from "next/headers";
 
 export async function GetAllProjects() {
   try {
@@ -41,6 +42,118 @@ export async function GetLatestProjects(limit: number) {
       return Response({
         success: res.success,
         message: res.message,
+      });
+    }
+  } catch (e: any) {
+    console.log(e.message);
+
+    return Response({
+      success: false,
+      message: "مشکلی پیش آمد. لطفا مجدد تلاش کنید.",
+    });
+  }
+}
+
+export async function NewProject(formData: FormData) {
+  const token = (await cookies()).get("token")?.value;
+
+  if (!token) {
+    return Response({
+      success: false,
+      message: "توکن شما پاک یا منقضی شده است. لطفا مجدد وارد شوید.",
+    });
+  }
+
+  const projectName = formData.get("projectName");
+  const sort = formData.get("sort");
+  const shortExplain = formData.get("shortExplain");
+  const sourceLink = formData.get("sourceLink");
+  const address = formData.get("address");
+  const explain = formData.get("explain");
+  const abilities = formData.get("abilities");
+  const thumbnail = formData.get("thumbnail");
+  const images = formData.getAll("images");
+
+  if (
+    !(thumbnail instanceof File) ||
+    thumbnail.size <= 0 ||
+    !["image/png", "image/jpeg", "image/webp"].includes(thumbnail.type)
+  ) {
+    return Response({
+      success: false,
+      message: "عکس اصلی انتخاب نشده است یا فرمت فایل صحیح نیست!",
+    });
+  }
+
+  if (images.length <= 0) {
+    return Response({
+      success: false,
+      message: "عکس های پروژه انتخاب نشده اند!",
+    });
+  }
+
+  for (const image of images) {
+    if (!(image instanceof File)) {
+      return Response({
+        success: false,
+        message: "فایل ارسال شده قابل شناسایی نیست!",
+      });
+    }
+
+    if (image.size <= 0) {
+      return Response({
+        success: false,
+        message: "حجم فایل ارسالی صفر است!",
+      });
+    }
+
+    if (!["image/png", "image/jpeg", "image/webp"].includes(image.type)) {
+      return Response({
+        success: false,
+        message: "فرمت فایل‌های انتخاب شده اشتباه است.",
+      });
+    }
+  }
+
+  if (typeof abilities === "string") {
+    const parsedAbilities = JSON.parse(abilities);
+
+    if (parsedAbilities.length <= 0) {
+      return Response({
+        success: false,
+        message: "مهارتی انتخاب نشده است!",
+      });
+    }
+  }
+
+  if (!projectName || !sort || !shortExplain || !sourceLink || !explain) {
+    return Response({
+      success: false,
+      message: "تمام مقادیر خواسته شده اجباری هستند!",
+    });
+  }
+  try {
+    const res = await fetch(`${process.env.API_SERVER_URL}/projects`, {
+      cache: "no-store",
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    });
+
+    const finalRes = await res.json();
+
+    if (finalRes.success) {
+      return Response({
+        success: finalRes.success,
+        message: finalRes.message,
+      });
+    } else {
+      return Response({
+        success: finalRes.success,
+        message: finalRes.message,
       });
     }
   } catch (e: any) {

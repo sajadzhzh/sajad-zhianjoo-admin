@@ -7,6 +7,9 @@ import Button from "../Button/Button";
 import MainImageInput from "../Input/MainImageInput";
 import GalleryImageInput from "../Input/GalleryInput";
 import post from "@/public/4.jpg";
+import toast from "react-hot-toast";
+import { NewProject } from "@/Actions/Projects";
+import { useRouter } from "next/navigation";
 
 type MainImage = {
   file: File | null;
@@ -25,23 +28,75 @@ export default function ProjectForm({
   edit?: boolean;
   id?: string;
 }) {
-  const [selected, setSelected] = useState<string[]>([]);
+  const [abilities, setAbilities] = useState<string[]>([]);
   const [thumbnail, setThumbnail] = useState<MainImage>({
     file: null,
     preview: edit ? post.src : null,
   });
-  const [images, setImages] = useState<GalleryImage[]>([
-    {
-      file: null,
-      preview: edit ? post.src : null,
-    },
-  ]);
+  const [images, setImages] = useState<GalleryImage[]>([]);
+  const [projectName, setProjectName] = useState("");
+  const [sort, setSort] = useState("");
+  const [shortExplain, setShortExplain] = useState("");
+  const [sourceLink, setSourceLink] = useState("");
+  const [address, setAddress] = useState("");
+  const [explain, setExplain] = useState("");
+  const router = useRouter();
 
   useEffect(() => {
-    edit && setSelected(["Next.js", "Tailwind CSS"]);
+    edit && setAbilities(["Next.js", "Tailwind CSS"]);
   }, []);
+
+  const handleCreate = async (e: any) => {
+    e.preventDefault();
+    if (
+      !projectName ||
+      !sort ||
+      !shortExplain ||
+      !sourceLink ||
+      !explain ||
+      abilities.length === 0 ||
+      !thumbnail.preview ||
+      images.length === 0
+    ) {
+      toast.error("بخش های خواسته شده الزامی هستند!");
+    }
+
+    const formData = new FormData();
+
+    formData.append("projectName", projectName);
+    formData.append("sort", sort);
+    formData.append("shortExplain", shortExplain);
+    formData.append("sourceLink", sourceLink);
+    formData.append("address", address);
+    formData.append("explain", explain);
+    formData.append("abilities", JSON.stringify(abilities));
+    if (thumbnail.file) {
+      formData.append("thumbnail", thumbnail.file);
+    }
+
+    images.forEach((image) => {
+      if (image.file) {
+        formData.append("images", image.file);
+      }
+    });
+
+    const res = await NewProject(formData);
+
+    if (res?.success) {
+      res.message && toast.success(res.message);
+      setTimeout(() => {
+        router.push("/projects");
+      }, 2000);
+    } else {
+      res?.message && toast.error(res.message);
+    }
+  };
+
   return (
-    <form className="space-y-2 w-full grid grid-cols-1 md:grid-cols-2 gap-2">
+    <form
+      className="space-y-2 w-full grid grid-cols-1 md:grid-cols-2 gap-2"
+      onSubmit={(e) => handleCreate(e)}
+    >
       <div className="w-full flex flex-col gap-2">
         <label htmlFor="projectName" className="text-[14px] text-(--muted)">
           نام پروژه
@@ -50,6 +105,7 @@ export default function ProjectForm({
           name="projectName"
           id="projectName"
           defaultValue={edit ? "PName" : ""}
+          onChange={(e) => setProjectName(e.target.value)}
         />
       </div>
 
@@ -57,7 +113,12 @@ export default function ProjectForm({
         <label htmlFor="sort" className="text-[14px] text-(--muted)">
           دسته بندی
         </label>
-        <TextInput name="sort" id="sort" defaultValue={edit ? "PSort" : ""} />
+        <TextInput
+          name="sort"
+          id="sort"
+          defaultValue={edit ? "PSort" : ""}
+          onChange={(e) => setSort(e.target.value)}
+        />
       </div>
 
       <div className="w-full flex flex-col gap-2">
@@ -68,6 +129,7 @@ export default function ProjectForm({
           name="shortExplain"
           id="shortExplain"
           defaultValue={edit ? "Short explain" : ""}
+          onChange={(e) => setShortExplain(e.target.value)}
         />
       </div>
 
@@ -79,6 +141,7 @@ export default function ProjectForm({
           name="sourceLink"
           id="sourceLink"
           defaultValue={edit ? "GitHub" : ""}
+          onChange={(e) => setSourceLink(e.target.value)}
         />
       </div>
 
@@ -90,10 +153,11 @@ export default function ProjectForm({
           name="address"
           id="address"
           defaultValue={edit ? "www.abc.ir" : ""}
+          onChange={(e) => setAddress(e.target.value)}
         />
       </div>
 
-      <MultiSelect selected={selected} setSelected={setSelected} />
+      <MultiSelect selected={abilities} setSelected={setAbilities} />
 
       <div className="w-full flex flex-col gap-2 md:col-span-2">
         <label htmlFor="explain" className="text-[14px] text-(--muted)">
@@ -104,6 +168,7 @@ export default function ProjectForm({
           name="explain"
           id="explain"
           defaultValue={"explanation"}
+          onChange={(e) => setExplain(e.target.value)}
           className="px-3 py-1 border border-(--border) outline-0 bg-(--surface) rounded-lg focus:bg-(--surface-hover)"
         ></textarea>
       </div>

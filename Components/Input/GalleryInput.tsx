@@ -54,7 +54,7 @@ export default function GalleryImageInput({ images, setImages }: Props) {
       </label>
 
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
-        {images[0].preview &&
+        {images &&
           images.map((image, index) => (
             <div
               key={`${image.preview}-${index}`}

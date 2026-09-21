@@ -8,8 +8,9 @@ import MainImageInput from "../Input/MainImageInput";
 import GalleryImageInput from "../Input/GalleryInput";
 import post from "@/public/4.jpg";
 import toast from "react-hot-toast";
-import { NewProject } from "@/Actions/Projects";
+import { EditProject, GetProjectById, NewProject } from "@/Actions/Projects";
 import { useRouter } from "next/navigation";
+import { urlToFile } from "@/Helper/URL";
 
 type MainImage = {
   file: File | null;
@@ -43,7 +44,49 @@ export default function ProjectForm({
   const router = useRouter();
 
   useEffect(() => {
-    edit && setAbilities(["Next.js", "Tailwind CSS"]);
+    const request = async () => {
+      if (!id) return;
+
+      const res = await GetProjectById(id);
+
+      if (res.success) {
+        setProjectName(res.data.name);
+        setSort(res.data.sort);
+        setShortExplain(res.data.short_description);
+        setSourceLink(res.data.sourceLink);
+        setAddress(JSON.parse(res.data.address));
+        setAbilities(JSON.parse(JSON.parse(res.data.abilities)));
+        setExplain(res.data.description);
+
+        const thumbnailFile = await urlToFile(
+          process.env.NEXT_PUBLIC_API_SERVER_URL + res.data.thumbnail,
+        );
+
+        setThumbnail({
+          file: thumbnailFile,
+          preview: res.data.thumbnail,
+        });
+
+        const parsedImages = JSON.parse(JSON.parse(res.data.images));
+
+        const imagesWithFiles = await Promise.all(
+          parsedImages.map(async (image: string) => {
+            const file = await urlToFile(
+              process.env.NEXT_PUBLIC_API_SERVER_URL + image,
+            );
+
+            return {
+              file,
+              preview: image,
+            };
+          }),
+        );
+
+        setImages(imagesWithFiles);
+      }
+    };
+
+    if (edit) request();
   }, []);
 
   const handleCreate = async (e: any) => {
@@ -80,7 +123,9 @@ export default function ProjectForm({
       }
     });
 
-    const res = await NewProject(formData);
+    edit && id && formData.append("id", id);
+
+    const res = edit ? await EditProject(formData) : await NewProject(formData);
 
     if (res?.success) {
       res.message && toast.success(res.message);
@@ -104,7 +149,7 @@ export default function ProjectForm({
         <TextInput
           name="projectName"
           id="projectName"
-          defaultValue={edit ? "PName" : ""}
+          defaultValue={edit ? projectName : ""}
           onChange={(e) => setProjectName(e.target.value)}
         />
       </div>
@@ -116,7 +161,7 @@ export default function ProjectForm({
         <TextInput
           name="sort"
           id="sort"
-          defaultValue={edit ? "PSort" : ""}
+          defaultValue={edit ? sort : ""}
           onChange={(e) => setSort(e.target.value)}
         />
       </div>
@@ -128,7 +173,7 @@ export default function ProjectForm({
         <TextInput
           name="shortExplain"
           id="shortExplain"
-          defaultValue={edit ? "Short explain" : ""}
+          defaultValue={edit ? shortExplain : ""}
           onChange={(e) => setShortExplain(e.target.value)}
         />
       </div>
@@ -140,7 +185,7 @@ export default function ProjectForm({
         <TextInput
           name="sourceLink"
           id="sourceLink"
-          defaultValue={edit ? "GitHub" : ""}
+          defaultValue={edit ? sourceLink : ""}
           onChange={(e) => setSourceLink(e.target.value)}
         />
       </div>
@@ -152,7 +197,7 @@ export default function ProjectForm({
         <TextInput
           name="address"
           id="address"
-          defaultValue={edit ? "www.abc.ir" : ""}
+          defaultValue={edit ? address : ""}
           onChange={(e) => setAddress(e.target.value)}
         />
       </div>
@@ -167,7 +212,7 @@ export default function ProjectForm({
           rows={5}
           name="explain"
           id="explain"
-          defaultValue={"explanation"}
+          defaultValue={explain}
           onChange={(e) => setExplain(e.target.value)}
           className="px-3 py-1 border border-(--border) outline-0 bg-(--surface) rounded-lg focus:bg-(--surface-hover)"
         ></textarea>

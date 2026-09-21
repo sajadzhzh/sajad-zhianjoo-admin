@@ -16,7 +16,7 @@ export default function ProjectItem({data}:{data: ProjectType}) {
       className="w-full relative border border-(--border) rounded-xl"
     >
       <Image
-        src={`http://localhost:3000${data.thumbnail}`}
+        src={`${process.env.NEXT_PUBLIC_API_SERVER_URL}${data.thumbnail}`}
         width={500}
         height={500}
         alt="post_image"

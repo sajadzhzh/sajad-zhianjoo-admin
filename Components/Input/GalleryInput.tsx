@@ -61,7 +61,13 @@ export default function GalleryImageInput({ images, setImages }: Props) {
               className="group relative aspect-video overflow-hidden rounded-xl border border-(--border)"
             >
               <img
-                src={image.preview ?? undefined}
+                src={
+                  image.preview
+                    ? image.preview.startsWith("blob:")
+                      ? image.preview
+                      : `${process.env.NEXT_PUBLIC_API_SERVER_URL}${image.preview}`
+                    : undefined
+                }
                 alt={image.file?.name || `تصویر پروژه ${index + 1}`}
                 className="h-full w-full object-cover"
               />

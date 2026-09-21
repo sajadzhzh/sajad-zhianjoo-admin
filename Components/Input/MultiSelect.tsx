@@ -16,13 +16,12 @@ export default function MultiSelect({
   setSelected,
 }: {
   selected: string[];
-  setSelected: (selected: any) => void;
+  setSelected: React.Dispatch<React.SetStateAction<string[]>>;
 }) {
-
   const toggleItem = (item: string) => {
-    setSelected((prev: any) =>
+    setSelected((prev) =>
       prev.includes(item)
-        ? prev.filter((value: any) => value !== item)
+        ? prev.filter((value) => value !== item)
         : [...prev, item],
     );
   };

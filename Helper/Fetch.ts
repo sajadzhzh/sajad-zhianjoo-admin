@@ -1,6 +1,6 @@
 const getFetch = async (url: string, headers: HeadersInit = {}) => {
   try {
-    const res = await fetch(`${process.env.API_SERVER_URL}/${url}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/${url}`, {
       method: "GET",
       cache: "no-store",
       headers: {
@@ -35,7 +35,7 @@ const postFetch = async (
   body: object,
   headers: HeadersInit = {},
 ) => {
-  const res = await fetch(`${process.env.API_SERVER_URL}/${url}`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/${url}`, {
     cache: "no-store",
     method: "POST",
     headers: {
@@ -54,7 +54,7 @@ const putFetch = async (
   body: object,
   headers: HeadersInit = {},
 ) => {
-  const res = await fetch(`${process.env.API_SERVER_URL}/${url}`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/${url}`, {
     cache: "no-store",
     method: "PUT",
     headers: {

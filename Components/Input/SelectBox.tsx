@@ -5,12 +5,12 @@ import { useEffect, useRef, useState } from "react";
 
 type SelectOption = {
   label: string;
-  value: string;
+  value: any;
 };
 
 type SelectBoxProps = {
-  value: string;
-  setValue: (value: string) => void;
+  value: any;
+  setValue: (value: any) => void;
   options: SelectOption[];
   placeholder?: string;
   disabled?: boolean;

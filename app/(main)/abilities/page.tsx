@@ -1,7 +1,32 @@
+"use client";
+
+import { GetAllAbilities } from "@/Actions/Abilities";
 import AbilityItem from "@/Components/Abilities/Item";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import Loading from "../Loading";
+import Empty from "@/Components/Empty";
 
 export default function AbilitiesPage() {
+  const [abilities, setAbilities] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const request = async () => {
+      const res = await GetAllAbilities();
+
+      if (res.success) {
+        setAbilities(res.data);
+        setLoading(false);
+      } else {
+        setAbilities([]);
+        setLoading(false);
+      }
+    };
+
+    request();
+  }, []);
+  
   return (
     <div className="w-full h-[90svh] overflow-scroll Container space-y-5">
       <div className="w-full flex items-center justify-between">
@@ -15,10 +40,12 @@ export default function AbilitiesPage() {
       </div>
 
       <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
-        <AbilityItem />
-        <AbilityItem />
-        <AbilityItem />
-        <AbilityItem />
+        {abilities.length > 0 &&
+          abilities.map((i, index) => <AbilityItem key={index} data={i} />)}
+
+        {loading && <Loading />}
+
+        {abilities.length <= 0 && !loading && Empty("مهارتی ثبت نشده است!")}
       </div>
     </div>
   );

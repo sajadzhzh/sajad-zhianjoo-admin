@@ -13,7 +13,7 @@ export default function ProjectItem({data}:{data: ProjectType}) {
   return (
     <Link
       href={`/projects/${data.id}`}
-      className="w-full relative border border-(--border) rounded-xl"
+      className="w-full relative border border-(--border) rounded-xl h-35 overflow-hidden"
     >
       <Image
         src={`${process.env.NEXT_PUBLIC_API_SERVER_URL}${data.thumbnail}`}

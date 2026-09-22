@@ -1,6 +1,6 @@
 "use server";
 
-import { getFetch } from "@/Helper/Fetch";
+import { delFetch, getFetch } from "@/Helper/Fetch";
 import Response from "@/Helper/Response";
 import { cookies } from "next/headers";
 
@@ -55,7 +55,7 @@ export async function GetLatestProjects(limit: number) {
 }
 
 export async function GetProjectById(id: string) {
-  try {    
+  try {
     const res = await getFetch(`projects/${id}`);
 
     if (res.success) {
@@ -158,15 +158,18 @@ export async function NewProject(formData: FormData) {
     });
   }
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_SERVER_URL}/projects`, {
-      cache: "no-store",
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        Authorization: `Bearer ${token}`,
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_SERVER_URL}/projects`,
+      {
+        cache: "no-store",
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
       },
-      body: formData,
-    });
+    );
 
     const finalRes = await res.json();
 
@@ -200,7 +203,6 @@ export async function EditProject(formData: FormData) {
       message: "توکن شما پاک یا منقضی شده است. لطفا مجدد وارد شوید.",
     });
   }
-  
 
   const projectName = formData.get("projectName");
   const sort = formData.get("sort");
@@ -221,11 +223,7 @@ export async function EditProject(formData: FormData) {
       });
     }
 
-    if (
-      !["image/png", "image/jpeg", "image/webp"].includes(
-        thumbnail.type,
-      )
-    ) {
+    if (!["image/png", "image/jpeg", "image/webp"].includes(thumbnail.type)) {
       return Response({
         success: false,
         message: "فرمت عکس اصلی صحیح نیست.",
@@ -248,11 +246,7 @@ export async function EditProject(formData: FormData) {
       });
     }
 
-    if (
-      !["image/png", "image/jpeg", "image/webp"].includes(
-        image.type,
-      )
-    ) {
+    if (!["image/png", "image/jpeg", "image/webp"].includes(image.type)) {
       return Response({
         success: false,
         message: "فرمت فایل‌های انتخاب شده اشتباه است.",
@@ -266,8 +260,6 @@ export async function EditProject(formData: FormData) {
     parsedAbilities = JSON.parse(
       typeof abilities === "string" ? abilities : "",
     );
-
-    
   } catch {
     return Response({
       success: false,
@@ -279,9 +271,7 @@ export async function EditProject(formData: FormData) {
     !Array.isArray(parsedAbilities) ||
     parsedAbilities.length === 0 ||
     !parsedAbilities.every(
-      (ability) =>
-        typeof ability === "string" &&
-        ability.trim().length > 0,
+      (ability) => typeof ability === "string" && ability.trim().length > 0,
     )
   ) {
     return Response({
@@ -290,13 +280,7 @@ export async function EditProject(formData: FormData) {
     });
   }
 
-  if (
-    !projectName ||
-    !sort ||
-    !shortExplain ||
-    !sourceLink ||
-    !explain
-  ) {
+  if (!projectName || !sort || !shortExplain || !sourceLink || !explain) {
     return Response({
       success: false,
       message: "تمام مقادیر خواسته شده اجباری هستند!",
@@ -325,6 +309,41 @@ export async function EditProject(formData: FormData) {
       success: finalRes.success,
       message: finalRes.message,
     });
+  } catch (e: any) {
+    console.log(e.message);
+
+    return Response({
+      success: false,
+      message: "مشکلی پیش آمد. لطفا مجدد تلاش کنید.",
+    });
+  }
+}
+
+export async function DeleteProject(id: string) {
+  const token = (await cookies()).get("token")?.value;
+
+  if (!token) {
+    return Response({
+      success: false,
+      message: "توکن شما پاک یا منقضی شده است. لطفا مجدد وارد شوید.",
+    });
+  }
+  try {
+    const res = await delFetch(`projects/${id}`, {
+      Authorization: `Bearer ${token}`,
+    });
+
+    if (res.success) {
+      return Response({
+        success: res.success,
+        data: res.data,
+      });
+    } else {
+      return Response({
+        success: res.success,
+        message: res.message,
+      });
+    }
   } catch (e: any) {
     console.log(e.message);
 

@@ -8,7 +8,12 @@ import MainImageInput from "../Input/MainImageInput";
 import GalleryImageInput from "../Input/GalleryInput";
 import post from "@/public/4.jpg";
 import toast from "react-hot-toast";
-import { EditProject, GetProjectById, NewProject } from "@/Actions/Projects";
+import {
+  DeleteProject,
+  EditProject,
+  GetProjectById,
+  NewProject,
+} from "@/Actions/Projects";
 import { useRouter } from "next/navigation";
 import { urlToFile } from "@/Helper/URL";
 
@@ -137,6 +142,21 @@ export default function ProjectForm({
     }
   };
 
+  const handleDelete = async () => {
+    if (id) {
+      const res = await DeleteProject(id);
+
+      if (res.success) {
+        res.message && toast.success(res.message);
+        setTimeout(() => {
+          router.push("/projects");
+        }, 2000);
+      } else {
+        res.message && toast.error(res.message);
+      }
+    }
+  };
+
   return (
     <form
       className="space-y-2 w-full grid grid-cols-1 md:grid-cols-2 gap-2"
@@ -235,6 +255,7 @@ export default function ProjectForm({
           <Button
             theme="normal"
             className="border border-red-600 bg-red-500/50 hover:bg-red-500/75"
+            onClick={handleDelete}
           >
             حذف پروژه
           </Button>

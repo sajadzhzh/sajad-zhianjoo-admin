@@ -49,7 +49,7 @@ export default function AddressForm() {
   };
 
   return (
-    <form className="w-full grid grid-cols-1 md:grid-cols-2 gap-2" onSubmit={handleSubmit}>
+    <form className="w-full grid grid-cols-1 md:grid-cols-2 gap-2" onSubmit={(e)=>handleSubmit(e)}>
       <div className="flex flex-col gap-2">
         <label htmlFor="address" className="text-[14px]">
           آدرس

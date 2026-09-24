@@ -237,3 +237,70 @@ export async function UpdateAboutMe({
     });
   }
 }
+
+export async function GetAvailable() {
+  try {
+    const res = await getFetch("info/available");
+
+    if (JSON.parse(res.success)) {
+      return Response({
+        success: res.success,
+        data: res.data,
+      });
+    } else {
+      return Response({
+        success: res.success,
+        message: res.message,
+      });
+    }
+  } catch (e: any) {
+    console.log(e.message);
+
+    return Response({
+      success: false,
+      message: "مشکلی پیش آمد. لطفا مجدد تلاش کنید.",
+    });
+  }
+}
+
+export async function UpdateAvailable({
+  is_available,
+}: {
+  is_available: boolean;
+}) {
+  const token = (await cookies()).get("token")?.value;
+
+  if (!token) {
+    return Response({
+      success: false,
+      message: "توکن شما پاک یا منقضی شده است. لطفا مجدد وارد شوید.",
+    });
+  }
+
+  try {
+    const res = await putFetch(
+      "info/available",
+      { is_available },
+      { Authorization: `Bearer ${token}` },
+    );
+
+    if (JSON.parse(res.success)) {
+      return Response({
+        success: res.success,
+        message: res.message,
+      });
+    } else {
+      return Response({
+        success: res.success,
+        message: res.message,
+      });
+    }
+  } catch (e: any) {
+    console.log(e.message);
+
+    return Response({
+      success: false,
+      message: "مشکلی پیش آمد. لطفا مجدد تلاش کنید.",
+    });
+  }
+}

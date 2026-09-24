@@ -5,14 +5,12 @@ import Button from "../Button/Button";
 import TextInput from "../Input/Text";
 import { GetSocialMedia, UpdateSocialMedia } from "@/Actions/SiteSettings";
 import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
 
 export default function LinksForm() {
   const [instagram, setInstagram] = useState("");
   const [telegram, setTelegram] = useState("");
   const [github, setGithub] = useState("");
   const [linkedin, setLinkedin] = useState("");
-  const router = useRouter();
 
   useEffect(() => {
     const request = async () => {
@@ -50,7 +48,6 @@ export default function LinksForm() {
 
       if (res.success) {
         res.message && toast.success(res.message);
-        router.refresh();
       } else {
         res.message && toast.error(res.message);
       }

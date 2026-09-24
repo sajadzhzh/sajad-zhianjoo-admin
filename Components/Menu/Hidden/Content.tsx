@@ -4,6 +4,8 @@ import { useEffect, useRef } from "react";
 import MenuItems from "../Items";
 import Link from "next/link";
 import { LogOut } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { LogOutBtn } from "@/Actions/Auth";
 
 export default function HiddenMenuContent({
   open,
@@ -12,6 +14,15 @@ export default function HiddenMenuContent({
   open: boolean;
   setOpen: (open: boolean) => void;
 }) {
+  const router = useRouter();
+
+  const handleClick = async () => {
+    const ok = await LogOutBtn();
+
+    if (ok) {
+      router.push("/login");
+    }
+  };
   const Ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -56,12 +67,13 @@ export default function HiddenMenuContent({
           </div>
 
           <Link
-          href={""}
-          className="px-4 py-2 mt-auto rounded bg-red-600/15 hover:bg-red-600/40 text-red-700 flex gap-1 items-center text-[14px]"
-        >
-          <LogOut size={22} />
-          خروج از حساب
-        </Link>
+            href={""}
+            onClick={handleClick}
+            className="px-4 py-2 mt-auto rounded bg-red-600/15 hover:bg-red-600/40 text-red-700 flex gap-1 items-center text-[14px]"
+          >
+            <LogOut size={22} />
+            خروج از حساب
+          </Link>
         </div>
       </div>
     </>

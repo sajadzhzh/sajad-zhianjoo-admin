@@ -185,3 +185,9 @@ export async function ChangePassword({
     });
   }
 }
+
+export async function LogOutBtn() {
+  (await cookies()).delete("token");
+
+  return true;
+}
